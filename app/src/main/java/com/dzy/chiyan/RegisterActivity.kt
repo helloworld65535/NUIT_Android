@@ -21,11 +21,11 @@ class RegisterActivity : AppCompatActivity() {
 
     fun onRegister(view: View) {
         // 获取输入的数据
-        val username = findViewById<EditText>(R.id.edit_username).text.toString().trim()
-        val password = findViewById<EditText>(R.id.edit_password).text.toString().trim()
+        val username = findViewById<EditText>(R.id.edit_username).text.toString()
+        val password = findViewById<EditText>(R.id.edit_password).text.toString()
         val confirmPassword =
-            findViewById<EditText>(R.id.edit_confirm_password).text.toString().trim()
-        val nickname = findViewById<EditText>(R.id.edit_nickname).text.toString().trim()
+            findViewById<EditText>(R.id.edit_confirm_password).text.toString()
+        val nickname = findViewById<EditText>(R.id.edit_nickname).text.toString()
 
         val radioGroup = findViewById<RadioGroup>(R.id.radioGroup_gender)
         val gender =
@@ -54,11 +54,15 @@ class RegisterActivity : AppCompatActivity() {
             //在数据库中添加账号信息
             val user = User(null, username, password)
             var res = userDao.addUser(user)
+            if (res) {
+                //添加用户信息
+                val userInfo = UserInfo(userDao.getIdByUsername(username), gender, birthday, nickname)
+                Log.d("userInfo", "${userInfo.userId}\t ${userInfo.gender}\t")
+                val userInfoDao = UserInfoDaoImpl(dbHelper)
+                res = res and userInfoDao.addUserInfo(userInfo)
 
-            val userInfo = UserInfo(userDao.getIdByUsername(username), gender, birthday, nickname)
-            val userInfoDao = UserInfoDaoImpl(dbHelper)
-
-            res = res and userInfoDao.addUserInfo(userInfo)
+            }
+            dbHelper.close()
 
             val builder = AlertDialog.Builder(this)
             if (res) {
@@ -91,7 +95,7 @@ class RegisterActivity : AppCompatActivity() {
             this,
             { _, year, monthOfYear, dayOfMonth ->
                 // 更新TextView来显示选择的日期
-                val dateText = "${year}-${monthOfYear}-${dayOfMonth}"
+                val dateText = "${year}-${monthOfYear+1}-${dayOfMonth}"
                 view.text = dateText
             },
             calendar.get(Calendar.YEAR),

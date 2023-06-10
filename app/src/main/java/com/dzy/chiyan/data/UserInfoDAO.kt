@@ -20,7 +20,7 @@ class UserInfoDaoImpl(private val dbHelper: DBHelper) : UserInfoDao {
             put(DBHelper.COLUMN_BIRTHDAY, userInfo.birthday)
             put(DBHelper.COLUMN_NICKNAME, userInfo.nickname)
         }
-        val ret = db.insert(DBHelper.TABLE_USER_INFO, null, values) == 1L
+        val ret = db.insert(DBHelper.TABLE_USER_INFO, null, values) >= 1L
         db.close()
 
         return ret

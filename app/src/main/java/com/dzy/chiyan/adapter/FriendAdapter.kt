@@ -1,17 +1,19 @@
 package com.dzy.chiyan.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.dzy.chiyan.MainActivity
 import com.dzy.chiyan.R
+import com.dzy.chiyan.data.DBHelper
+import com.dzy.chiyan.data.FriendshipDAOImpl
 
-class FriendAdapter(private val friendList: MutableList<Friend>) : RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
+class FriendAdapter(private val friendList: MutableList<Friend>) :
+    RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
     private lateinit var context: Context
 
     class FriendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -52,12 +54,22 @@ class FriendAdapter(private val friendList: MutableList<Friend>) : RecyclerView.
             .setMessage("确定要删除该好友吗？")
             .setPositiveButton("确定") { dialog, which ->
                 // 删除对应的数据
+
+                val del = friendList[position].friendshipID
                 friendList.removeAt(position)
+                notifyItemRemoved(position)
 
                 //TODO 删除数据库中对应的好友信息
+                val dao = FriendshipDAOImpl(DBHelper(context))
+                val msg: String
+                if (dao.delete(del)) {
+                    msg = "删除成功"
+                } else {
+                    msg = "删除失败"
+                }
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 
                 // 刷新适配器
-                notifyItemRemoved(position)
             }
             .setNegativeButton("取消", null)
             .create()
@@ -65,7 +77,22 @@ class FriendAdapter(private val friendList: MutableList<Friend>) : RecyclerView.
         alertDialog.show()
     }
 
+    /**
+     * 添加数据
+     */
+    fun addFriend(friend: Friend) {
+        friendList.add(friend)
+        notifyItemInserted(friendList.size - 1)
+    }
 
+    /**
+     * 重新加载数据
+     */
+    fun reloadData(newFriendList: List<Friend>) {
+        friendList.clear()
+        friendList.addAll(newFriendList)
+        notifyDataSetChanged()
+    }
 }
 
 

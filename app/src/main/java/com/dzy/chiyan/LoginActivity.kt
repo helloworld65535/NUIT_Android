@@ -10,10 +10,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
-import com.dzy.chiyan.data.DBHelper
-import com.dzy.chiyan.data.SharePreferences
-import com.dzy.chiyan.data.User
-import com.dzy.chiyan.data.UserDaoImpl
+import com.dzy.chiyan.data.*
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var sharePreferences: SharePreferences
@@ -21,7 +18,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        sharePreferences= SharePreferences(getSharedPreferences("userData", Context.MODE_PRIVATE))
+        sharePreferences = SharePreferences(getSharedPreferences("userData", Context.MODE_PRIVATE))
 
         //读取是否保存账号信息
         val user = sharePreferences.readUser()
@@ -36,23 +33,28 @@ class LoginActivity : AppCompatActivity() {
      * 登录按钮的点击事件
      */
     fun onLogin(view: View) {
+
         val userDao = UserDaoImpl(DBHelper(this))
         val user = getLoginAccount()
+
+        user.id = userDao.getIdByUsername(user.username!!)
         if (userDao.login(user)) {
             // 登录成功逻辑
-            Log.d("LoginActivity", "登录成功")
+            Log.d("LoginActivity", "登录成功 ${user.id}")
             Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show()
             //更新本地账号信息
             updateAccountData()
-            // 跳转到用户界面
-            startActivity(Intent(this, UserActivity::class.java))
-
+            // 跳转到用户界面,并且传递当前的用户ID
+            val intent = Intent(this, UserActivity::class.java)
+            intent.putExtra("userID", user.id)
+            startActivity(intent)
         } else {
             // 登录失败逻辑
             Log.d("LoginActivity", "登录失败，请检查账号和密码")
             Toast.makeText(this, "登录失败，请检查账号和密码", Toast.LENGTH_SHORT).show()
             //TODO 提醒输入错误
         }
+
     }
 
     /**

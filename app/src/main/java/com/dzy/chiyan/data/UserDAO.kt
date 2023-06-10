@@ -72,7 +72,7 @@ class UserDaoImpl(private val dbHelper: DBHelper) : UserDao {
             put(DBHelper.COLUMN_PASSWORD, user.password)
         }
 
-        return db.insert(DBHelper.TABLE_USERS, null, values)==1L
+        return db.insert(DBHelper.TABLE_USERS, null, values) >= 1L
     }
 
     override fun updateUser(user: User) {

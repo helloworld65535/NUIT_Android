@@ -24,6 +24,7 @@
                   android:id="@+id/textView"/>
 
         <ImageButton
+                android:id="@+id/imageBut_addFriend"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="#00FFFFFF"
