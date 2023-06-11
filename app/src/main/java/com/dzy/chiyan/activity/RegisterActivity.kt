@@ -1,4 +1,4 @@
-package com.dzy.chiyan
+package com.dzy.chiyan.activity
 
 
 import android.app.DatePickerDialog
@@ -8,10 +8,11 @@ import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.dzy.chiyan.R
 import com.dzy.chiyan.data.*
 import java.util.*
 
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)

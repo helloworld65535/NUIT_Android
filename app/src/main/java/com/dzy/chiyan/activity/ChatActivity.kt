@@ -1,6 +1,5 @@
-package com.dzy.chiyan
+package com.dzy.chiyan.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,13 +7,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dzy.chiyan.R
 import com.dzy.chiyan.adapter.MessageAdapter
 import com.dzy.chiyan.data.DBHelper
 import com.dzy.chiyan.data.Message
 import com.dzy.chiyan.data.MessageDAOImpl
 import com.dzy.chiyan.data.UserInfoDaoImpl
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : BaseActivity() {
 
     private lateinit var messageAdapter: MessageAdapter
     private lateinit var recyclerView: RecyclerView

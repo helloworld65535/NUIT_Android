@@ -1,18 +1,18 @@
-package com.dzy.chiyan
+package com.dzy.chiyan.activity
 
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import com.dzy.chiyan.R
 import com.dzy.chiyan.data.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
     private lateinit var sharePreferences: SharePreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, UserActivity::class.java)
             intent.putExtra("userID", user.id)
             startActivity(intent)
+            finish()
         } else {
             // 登录失败逻辑
             Log.d("LoginActivity", "登录失败，请检查账号和密码")
@@ -89,6 +90,11 @@ class LoginActivity : AppCompatActivity() {
     //注册账号的点击事件
     fun onRegister(view: View) {
         val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
+    }
+
+    fun onForget(view: View) {
+        val intent = Intent(this, ForgetActivity::class.java)
         startActivity(intent)
     }
 }

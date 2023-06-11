@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import com.dzy.chiyan.ChatActivity
+import com.dzy.chiyan.activity.ChatActivity
 import com.dzy.chiyan.R
 import com.dzy.chiyan.data.DBHelper
 import com.dzy.chiyan.data.FriendshipDAOImpl

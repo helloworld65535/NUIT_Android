@@ -13,7 +13,7 @@ object ActivityCollector {
         activities.remove(activity)
     }
 
-    fun finish() {
+    fun finishAll() {
         for (activity in activities) {
             if (!activity.isFinishing) {
                 activity.finish()

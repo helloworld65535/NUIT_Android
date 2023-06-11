@@ -1,5 +1,6 @@
 package com.dzy.chiyan.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -7,12 +8,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.dzy.chiyan.R
 import com.dzy.chiyan.api.*
+import com.dzy.chiyan.data.DBHelper
+import com.dzy.chiyan.data.UserDaoImpl
+import com.dzy.chiyan.data.UserInfoDaoImpl
 
-class SettingFragment : Fragment() {
+class SettingFragment(private val userID: Int) : Fragment() {
     private val handler = Handler(Looper.getMainLooper())
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +60,16 @@ class SettingFragment : Fragment() {
                 // 处理请求失败的情况
             }
         })
+        val context = requireContext()
+        val nickname = UserInfoDaoImpl(DBHelper(context)).getUser(userID)?.nickname
+        val username = UserDaoImpl(DBHelper(context)).getUserById(userID)?.username
+        view.findViewById<TextView>(R.id.userNickname).text = nickname
+        view.findViewById<TextView>(R.id.username).text = username
+
+        view.findViewById<Button>(R.id.forceOffline).setOnClickListener {
+            val intent = Intent("com.dzy.chiyan.FORCE_OFFLINE")
+            context.sendBroadcast(intent)
+        }
 
         return view
     }

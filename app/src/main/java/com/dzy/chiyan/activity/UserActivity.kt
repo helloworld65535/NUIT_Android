@@ -1,15 +1,15 @@
-package com.dzy.chiyan
+package com.dzy.chiyan.activity
 
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.dzy.chiyan.R
 import com.dzy.chiyan.fragment.ChatFragment
 import com.dzy.chiyan.fragment.FriendFragment
 import com.dzy.chiyan.fragment.SettingFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class UserActivity : AppCompatActivity() {
+class UserActivity : BaseActivity() {
     private lateinit var bottomNav: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +17,7 @@ class UserActivity : AppCompatActivity() {
 
         //获取传递的id
         val userID = intent.getIntExtra("userID", 0)
-        Log.d("UserActivity","$userID")
+        Log.d("UserActivity", "$userID")
 
         loadFragment(ChatFragment(userID))
         bottomNav = findViewById<BottomNavigationView>(R.id.bottomNav)
@@ -34,7 +34,7 @@ class UserActivity : AppCompatActivity() {
                 }
 
                 R.id.settings -> {
-                    loadFragment(SettingFragment())
+                    loadFragment(SettingFragment(userID))
                     true
                 }
 

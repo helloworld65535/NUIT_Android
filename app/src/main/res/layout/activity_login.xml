@@ -6,7 +6,7 @@
               android:background="#FFFFFFFF"
               android:fitsSystemWindows="true"
               android:orientation="vertical"
-              tools:context=".LoginActivity">
+              tools:context=".activity.LoginActivity">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="60dp"
                 android:contentDescription="@string/logo"
-                android:src="@drawable/icons8_wechat_480"/>
+                android:src="@drawable/icons8_image_100"/>
 
         <EditText
                 android:id="@+id/edit_username"
@@ -87,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
+                android:onClick="onForget"
                 android:text="@string/forget_password"
                 android:textAlignment="center"
                 tools:ignore="RtlCompat"/>

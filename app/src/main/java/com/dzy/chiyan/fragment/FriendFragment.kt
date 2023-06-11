@@ -2,21 +2,22 @@ package com.dzy.chiyan.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dzy.chiyan.R
 import com.dzy.chiyan.adapter.Friend
 import com.dzy.chiyan.adapter.FriendAdapter
-import com.dzy.chiyan.data.*
+import com.dzy.chiyan.data.DBHelper
+import com.dzy.chiyan.data.FriendshipDAOImpl
+import com.dzy.chiyan.data.UserDaoImpl
 
 
 class FriendFragment(private val userID: Int) : Fragment() {
@@ -45,10 +46,10 @@ class FriendFragment(private val userID: Int) : Fragment() {
         recyclerView.layoutManager = layoutManager
 
         // 初始化适配器
-        adapter = FriendAdapter(mutableListOf<Friend>(),userID) // 替换为你的适配器类
+        adapter = FriendAdapter(mutableListOf<Friend>(), userID) // 替换为你的适配器类
         recyclerView.adapter = adapter
 
-        // TODO 在这里设置适配器的数据源
+        //  在这里设置适配器的数据源
         loadData()
 
 
@@ -56,7 +57,7 @@ class FriendFragment(private val userID: Int) : Fragment() {
     }
 
     private fun loadData() {
-        //TODO 加载用户的好友列表
+        // 加载用户的好友列表
         val dao = FriendshipDAOImpl(DBHelper(context))
         adapter.reloadData(dao.findFriendById(userID))
     }
@@ -88,8 +89,6 @@ class FriendFragment(private val userID: Int) : Fragment() {
                     msg = "添加失败"
                 }
                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
-
-                // 可以使用 friendName 进行后续处理
             } else {
                 // 格式验证不通过
                 Toast.makeText(context, "账号输入错误，请检查你的输入的账号格式", Toast.LENGTH_SHORT).show()

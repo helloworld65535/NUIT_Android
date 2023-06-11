@@ -8,7 +8,7 @@ interface UserDao {
     fun getUserById(id: Int): User?
     fun getIdByUsername(username: String): Int?
     fun addUser(user: User): Boolean
-    fun updateUser(user: User)
+    fun updateUser(user: User): Boolean
     fun deleteUser(user: User)
     fun login(user: User): Boolean
 
@@ -18,7 +18,7 @@ class UserDaoImpl(private val dbHelper: DBHelper) : UserDao {
 
     override fun getUserById(id: Int): User? {
         val db = dbHelper.readableDatabase
-        val selection = "${DBHelper.COLUMN_ID}. = ?"
+        val selection = "${DBHelper.COLUMN_ID} = ?"
         val selectionArgs = arrayOf(id.toString())
 
         val cursor = db.query(
@@ -75,17 +75,17 @@ class UserDaoImpl(private val dbHelper: DBHelper) : UserDao {
         return db.insert(DBHelper.TABLE_USERS, null, values) >= 1L
     }
 
-    override fun updateUser(user: User) {
+    override fun updateUser(user: User): Boolean {
         val db = dbHelper.writableDatabase
         val values = ContentValues().apply {
             put(DBHelper.COLUMN_USERNAME, user.username)
             put(DBHelper.COLUMN_PASSWORD, user.password)
         }
 
-        val selection = "${DBHelper.COLUMN_ID}= ?"
-        val selectionArgs = arrayOf(user.id.toString())
+        val selection = "${DBHelper.COLUMN_USERNAME}= ?"
+        val selectionArgs = arrayOf(user.username.toString())
 
-        db.update(DBHelper.TABLE_USERS, values, selection, selectionArgs)
+        return db.update(DBHelper.TABLE_USERS, values, selection, selectionArgs) >= 1L
     }
 
     override fun deleteUser(user: User) {
