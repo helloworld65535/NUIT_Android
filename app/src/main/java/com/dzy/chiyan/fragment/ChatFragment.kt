@@ -1,5 +1,6 @@
 package com.dzy.chiyan.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,12 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dzy.chiyan.R
 import com.dzy.chiyan.adapter.Chat
 import com.dzy.chiyan.adapter.ChatAdapter
+import com.dzy.chiyan.data.DBHelper
+import com.dzy.chiyan.data.MessageDAOImpl
 
 
 class ChatFragment(var userID: Int) : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ChatAdapter
-    private val chats = mutableListOf<Chat>()
+    private lateinit var context: Context
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,31 +27,33 @@ class ChatFragment(var userID: Int) : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
 
-
-        //TODO 在这里使用data字符串值进行操作
+        context = requireContext()
 
         recyclerView = view.findViewById(R.id.recyclerView)
 
         // 设置RecyclerView的布局管理器
-        val layoutManager = LinearLayoutManager(requireContext())
+        val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
 
+        // 初始化适配器
+        adapter = ChatAdapter(mutableListOf<Chat>(), userID) // 替换为你的适配器类
+        recyclerView.adapter = adapter
 
         // TODO 在这里设置适配器的数据源
         loadData()
-
-        // 初始化适配器
-        adapter = ChatAdapter(chats) // 替换为你的适配器类
-        recyclerView.adapter = adapter
 
         return view
     }
 
     private fun loadData() {
         //TODO 加载用户的聊天
-        chats.add(Chat(1, "Friend 1", "Hello!", "10:00 AM"))
-        chats.add(Chat(2, "Friend 2", "Hi there!", "11:30 AM"))
-        chats.add(Chat(3, "Friend 3", "Hey!", "12:45 PM"))
+        val dao = MessageDAOImpl(DBHelper(context))
+        adapter.reloadData(dao.getChatsForUserId(userID))
+    }
 
+    override fun onResume() {
+        super.onResume()
+        // 在界面返回时重新加载数据
+        loadData()
     }
 }

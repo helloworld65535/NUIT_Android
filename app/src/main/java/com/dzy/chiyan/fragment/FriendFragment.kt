@@ -45,7 +45,7 @@ class FriendFragment(private val userID: Int) : Fragment() {
         recyclerView.layoutManager = layoutManager
 
         // 初始化适配器
-        adapter = FriendAdapter(mutableListOf<Friend>()) // 替换为你的适配器类
+        adapter = FriendAdapter(mutableListOf<Friend>(),userID) // 替换为你的适配器类
         recyclerView.adapter = adapter
 
         // TODO 在这里设置适配器的数据源

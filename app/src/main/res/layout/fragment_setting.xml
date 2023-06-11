@@ -1,12 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".fragment.SettingFragment">
-
-    <TextView
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context=".fragment.SettingFragment"
+              android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/setting"/>
-</FrameLayout>
+            android:layout_height="40dp"
+            android:background="#a5d9ff"
+            android:elevation="4dp">
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="@string/setting"
+                  android:textColor="@color/white"
+                  android:textAlignment="center"
+                  android:textSize="20sp"
+                  android:id="@+id/textView"
+                  app:layout_constraintEnd_toEndOf="parent"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/weather_card_background">
+
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      app:layout_constraintTop_toTopOf="parent"
+                      app:layout_constraintStart_toStartOf="parent"
+                      android:gravity="bottom"
+                      android:layout_margin="10dp" android:id="@+id/linearLayout2">
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/city"
+                      android:textColor="#CEDFF9FB"
+                      android:textSize="15sp"
+                      android:text="XX市"/>
+            <TextView android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/district"
+                      android:layout_marginLeft="5dp"
+                      android:textSize="20sp"
+                      android:textColor="#FFFFFF"
+                      android:text="XX区"/>
+            <ImageView android:layout_width="20dp" android:layout_height="20dp"
+                       android:src="@drawable/icons8_location_50"
+                       android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout android:layout_width="160dp" android:layout_height="wrap_content"
+                      app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                      app:layout_constraintStart_toStartOf="parent"
+                      android:layout_margin="20dp"
+                      android:orientation="vertical"
+                      android:id="@+id/linearLayout3" app:layout_constraintBottom_toBottomOf="parent">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:layout_width="70dp" android:layout_height="wrap_content"
+                          android:fontFamily="casual"
+                          android:textColor="#EEE9EBED"
+                          android:text="相对湿度:"/>
+                <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                          android:id="@+id/humidity"
+                          android:singleLine="true"
+                          android:textStyle="bold"
+                          android:fontFamily="casual"
+                          android:gravity="right"
+                          android:text="X"/>
+                <TextView android:layout_width="30dp" android:layout_height="wrap_content"
+                          android:fontFamily="casual"
+                          android:gravity="center"
+                          android:text="%"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:layout_width="70dp" android:layout_height="wrap_content"
+                          android:fontFamily="casual"
+                          android:textColor="#EEE9EBED"
+                          android:text="风向:"/>
+                <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                          android:id="@+id/windDirection"
+                          android:singleLine="true"
+                          android:textStyle="bold"
+                          android:fontFamily="casual"
+                          android:gravity="right"
+                          android:text="X"/>
+                <TextView android:layout_width="30dp" android:layout_height="wrap_content"
+                          android:fontFamily="casual"
+                          android:gravity="center"
+                          android:text="°"/>
+            </LinearLayout>
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+                <TextView android:layout_width="70dp" android:layout_height="wrap_content"
+                          android:fontFamily="casual"
+                          android:textColor="#EEE9EBED"
+                          android:text="风速:"/>
+                <TextView android:layout_width="60dp" android:layout_height="wrap_content"
+                          android:id="@+id/windSpeed"
+                          android:singleLine="true"
+                          android:textStyle="bold"
+                          android:fontFamily="casual"
+                          android:gravity="right"
+                          android:text="X"/>
+                <TextView android:layout_width="30dp" android:layout_height="wrap_content"
+                          android:fontFamily="casual"
+                          android:gravity="center"
+                          android:text="m/s"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintHorizontal_bias="0.9"
+                      app:layout_constraintStart_toEndOf="@+id/linearLayout2"
+                      app:layout_constraintTop_toTopOf="@+id/linearLayout2"
+                      app:layout_constraintBottom_toBottomOf="@+id/linearLayout2">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="#3C630E0E"
+                      android:text="更新于"
+            />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/datetime"
+                      android:textColor="#3C630E0E"
+                      android:text="XXXX/XX/XX XX:XX"
+            />
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      app:layout_constraintEnd_toEndOf="parent"
+                      app:layout_constraintBottom_toBottomOf="parent"
+                      android:gravity="center"
+                      android:layout_margin="20dp"
+                      app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                      android:id="@+id/linearLayout4">
+            <ImageView android:layout_width="40dp" android:layout_height="50dp"
+                       android:src="@drawable/temperature"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:id="@+id/temperature"
+                      android:text="X"
+                      android:textColor="#B7000000"
+                      android:textStyle="bold"
+                      android:fontFamily="casual"
+                      android:textSize="40sp"
+            />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="℃"
+                      android:textColor="#BEFFFFFF"
+                      android:textSize="30sp"
+                      android:fontFamily="casual"
+            />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

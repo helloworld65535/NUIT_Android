@@ -39,10 +39,20 @@ class FriendshipDAOImpl(private val dbHelper: DBHelper) : FriendshipDAO {
         val db = dbHelper.readableDatabase
 
         val query =
-            "SELECT friendships.id, user_info.nickname\n" +
+            "SELECT friendships.id,\n" +
+                    "       CASE\n" +
+                    "           WHEN friendships.user_id = ${id} THEN friendships.friend_id\n" +
+                    "           ELSE friendships.user_id\n" +
+                    "           END AS user_id,\n" +
+                    "       user_info.nickname\n" +
                     "FROM friendships\n" +
-                    "         JOIN user_info ON (friendships.friend_id = user_info.user_id)\n" +
-                    "WHERE friendships.user_id = ${id} OR friendships.friend_id =${id};"
+                    "         JOIN user_info ON (user_info.user_id =\n" +
+                    "                            CASE\n" +
+                    "                                WHEN friendships.user_id = ${id} THEN friendships.friend_id\n" +
+                    "                                ELSE friendships.user_id\n" +
+                    "                                END)\n" +
+                    "WHERE friendships.user_id = ${id}\n" +
+                    "   OR friendships.friend_id = ${id};\n"
 
 
         val cursor = db.rawQuery(query, null)
@@ -52,9 +62,10 @@ class FriendshipDAOImpl(private val dbHelper: DBHelper) : FriendshipDAO {
 
         if (cursor.moveToFirst()) {
             do {
-                val userId = cursor.getInt(cursor.getColumnIndex("id"))
+                val id = cursor.getInt(cursor.getColumnIndex("id"))
+                val friendID = cursor.getInt(cursor.getColumnIndex("user_id"))
                 val nickname = cursor.getString(cursor.getColumnIndex("nickname"))
-                val friend = Friend(userId, nickname)
+                val friend = Friend(id, friendID, nickname)
                 mutableList.add(friend)
             } while (cursor.moveToNext())
         }

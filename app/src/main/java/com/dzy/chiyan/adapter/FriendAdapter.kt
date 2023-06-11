@@ -1,6 +1,7 @@
 package com.dzy.chiyan.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.dzy.chiyan.ChatActivity
 import com.dzy.chiyan.R
 import com.dzy.chiyan.data.DBHelper
 import com.dzy.chiyan.data.FriendshipDAOImpl
 
-class FriendAdapter(private val friendList: MutableList<Friend>) :
+class FriendAdapter(private val friendList: MutableList<Friend>, val userID: Int) :
     RecyclerView.Adapter<FriendAdapter.FriendViewHolder>() {
     private lateinit var context: Context
 
@@ -33,10 +35,11 @@ class FriendAdapter(private val friendList: MutableList<Friend>) :
 
         //点击item传入friendId然后跳转
         holder.itemView.setOnClickListener {
-            //TODO 跳转用户详情界面
-//            val intent = Intent(context, MainActivity::class.java)
-//            intent.putExtra("friendId", friend.id)
-//            context.startActivity(intent)
+            //跳转用户聊天界面
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("friendId", friend.id)
+            intent.putExtra("userID", userID)
+            context.startActivity(intent)
         }
 
         holder.itemView.setOnLongClickListener {
@@ -62,10 +65,10 @@ class FriendAdapter(private val friendList: MutableList<Friend>) :
                 //TODO 删除数据库中对应的好友信息
                 val dao = FriendshipDAOImpl(DBHelper(context))
                 val msg: String
-                if (dao.delete(del)) {
-                    msg = "删除成功"
+                msg = if (dao.delete(del)) {
+                    "删除成功"
                 } else {
-                    msg = "删除失败"
+                    "删除失败"
                 }
                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
 
