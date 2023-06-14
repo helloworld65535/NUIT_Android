@@ -32,32 +32,38 @@ class SettingFragment(private val userID: Int) : Fragment() {
                 handler.post {
                     view.findViewById<TextView>(R.id.city).text = locationData.city
                     view.findViewById<TextView>(R.id.district).text = locationData.district
-                    lat=locationData.lat
-                    lng=locationData.lng
+                    lat = locationData.lat
+                    lng = locationData.lng
                     Log.d("SettingFragment", "$locationData")
+
+                    val weatherApiClient = WeatherApiClient()
+                    weatherApiClient.getRealtimeWeather(lat, lng, object : WeatherCallback {
+                        override fun onSuccess(weatherData: WeatherData) {
+                            handler.post {
+                                view.findViewById<TextView>(R.id.temperature).text = weatherData.temperature.toString()
+                                view.findViewById<TextView>(R.id.humidity).text =
+                                    String.format("%.0f", (weatherData.humidity * 100))
+                                view.findViewById<TextView>(R.id.windDirection).text =
+                                    weatherData.windDirection.toString()
+                                view.findViewById<TextView>(R.id.windSpeed).text =
+                                    String.format("%.3f", weatherData.windSpeed)
+                                view.findViewById<TextView>(R.id.datetime).text = weatherData.datetime
+                                Log.d("SettingFragment", "$weatherData")
+                            }
+                        }
+
+                        override fun onError(errorMessage: String) {
+                            // 处理请求失败的情况
+                        }
+                    })
                 }
             }
+
             override fun onError(errorMessage: String) {
                 // 处理请求失败的情况
             }
         })
-        val weatherApiClient = WeatherApiClient()
-        weatherApiClient.getRealtimeWeather(lat, lng, object : WeatherCallback {
-            override fun onSuccess(weatherData: WeatherData) {
-                handler.post {
-                    view.findViewById<TextView>(R.id.temperature).text = weatherData.temperature.toString()
-                    view.findViewById<TextView>(R.id.humidity).text =
-                        String.format("%.0f", (weatherData.humidity * 100))
-                    view.findViewById<TextView>(R.id.windDirection).text = weatherData.windDirection.toString()
-                    view.findViewById<TextView>(R.id.windSpeed).text = String.format("%.3f", weatherData.windSpeed)
-                    view.findViewById<TextView>(R.id.datetime).text = weatherData.datetime
-                    Log.d("SettingFragment", "$weatherData")
-                }
-            }
-            override fun onError(errorMessage: String) {
-                // 处理请求失败的情况
-            }
-        })
+
         val context = requireContext()
         val nickname = UserInfoDaoImpl(DBHelper(context)).getUser(userID)?.nickname
         val username = UserDaoImpl(DBHelper(context)).getUserById(userID)?.username

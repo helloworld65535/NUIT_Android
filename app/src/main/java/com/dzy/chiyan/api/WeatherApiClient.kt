@@ -1,5 +1,6 @@
 package com.dzy.chiyan.api
 
+import android.util.Log
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -11,7 +12,7 @@ class WeatherApiClient() {
     private final val apiKey = "fu34p3a6qCJpFRlJ"
     fun getRealtimeWeather(latitude: Double, longitude: Double, callback: WeatherCallback) {
         val url = "https://api.caiyunapp.com/v2.5/$apiKey/$longitude,$latitude/realtime"
-
+        Log.d("url", url)
         val request = Request.Builder()
             .url(url)
             .build()
@@ -20,6 +21,7 @@ class WeatherApiClient() {
             override fun onResponse(call: Call, response: Response) {
                 val responseData = response.body?.string()
                 if (response.isSuccessful && responseData != null) {
+                    Log.d("json","$responseData")
                     val weatherData = parseWeatherData(responseData)
                     callback.onSuccess(weatherData)
                 } else {
