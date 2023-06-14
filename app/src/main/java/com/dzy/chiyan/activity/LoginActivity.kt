@@ -19,7 +19,6 @@ class LoginActivity : BaseActivity() {
         setContentView(R.layout.activity_login)
 
         sharePreferences = SharePreferences(getSharedPreferences("userData", Context.MODE_PRIVATE))
-
         //读取是否保存账号信息
         val user = sharePreferences.readUser()
         if (user.canLogin()) {
@@ -53,14 +52,12 @@ class LoginActivity : BaseActivity() {
             // 登录失败逻辑
             Log.d("LoginActivity", "登录失败，请检查账号和密码")
             Toast.makeText(this, "登录失败，请检查账号和密码", Toast.LENGTH_SHORT).show()
-            //TODO 提醒输入错误
         }
-
     }
 
     /**
      * 获取输入框中的账号信息
-     * @return Account对象
+     * @return User
      */
     private fun getLoginAccount(): User {
         val username = findViewById<EditText>(R.id.edit_username).text.toString()

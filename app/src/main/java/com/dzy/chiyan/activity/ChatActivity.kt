@@ -71,13 +71,9 @@ class ChatActivity : BaseActivity() {
         val dao = MessageDAOImpl(DBHelper(this))
         if (dao.insertMessage(message)) {
             messageAdapter.addMessage(message)
-
             // 滚动到底部
             recyclerView.smoothScrollToPosition(messageAdapter.getItemCount() - 1)
 
-            Toast.makeText(this, "添加成功", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "添加失败", Toast.LENGTH_SHORT).show()
         }
     }
 }

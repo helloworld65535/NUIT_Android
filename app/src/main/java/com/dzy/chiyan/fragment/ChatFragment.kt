@@ -24,7 +24,6 @@ class ChatFragment(var userID: Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
 
         context = requireContext()
@@ -36,17 +35,17 @@ class ChatFragment(var userID: Int) : Fragment() {
         recyclerView.layoutManager = layoutManager
 
         // 初始化适配器
-        adapter = ChatAdapter(mutableListOf<Chat>(), userID) // 替换为你的适配器类
+        adapter = ChatAdapter(mutableListOf<Chat>(), userID)
         recyclerView.adapter = adapter
 
-        // TODO 在这里设置适配器的数据源
+        //  在这里设置适配器的数据源
         loadData()
 
         return view
     }
 
     private fun loadData() {
-        //TODO 加载用户的聊天
+        // 加载用户的聊天
         val dao = MessageDAOImpl(DBHelper(context))
         adapter.reloadData(dao.getChatsForUserId(userID))
     }

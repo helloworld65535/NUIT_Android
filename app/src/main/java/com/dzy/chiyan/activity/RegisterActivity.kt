@@ -2,7 +2,6 @@ package com.dzy.chiyan.activity
 
 
 import android.app.DatePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,7 +11,7 @@ import com.dzy.chiyan.R
 import com.dzy.chiyan.data.*
 import java.util.*
 
-class RegisterActivity : BaseActivity() {
+    class RegisterActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
@@ -32,6 +31,7 @@ class RegisterActivity : BaseActivity() {
         val gender =
             radioGroup.findViewById<RadioButton>(radioGroup.checkedRadioButtonId).text.toString()
         val birthday = findViewById<Button>(R.id.button_DateSelect).text.toString()
+
         Log.d(
             "Register", "username:${username}" +
                     "password:${password}" +

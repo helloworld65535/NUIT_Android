@@ -16,6 +16,7 @@ open class BaseActivity : AppCompatActivity() {
             ActivityCollector.finishAll()
             val i = Intent(context, LoginActivity::class.java)
             context.startActivity(i)
+            finish()
         }
 
     }
